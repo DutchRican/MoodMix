@@ -8,22 +8,52 @@
 import SwiftUI
 
 struct Search: View {
-    @State var searchInput: String = ""
-    
-    private var suggestions = ["One", "Two", "Three", "and more"]
+    @StateObject var debouncedObject = DebouncedTextField()
+    @StateObject var musicSuggestions = MusicSuggestions()
+    @EnvironmentObject var aiSuggestions: AiSuggestions
+    @State private var selectedItem: Release?
     
     var body: some View {
         VStack {
-            TextField("", text: $searchInput)
-                .textFieldStyle(.roundedBorder)
-                .padding()
-        }
-        List(suggestions, id: \.self) { sug in
-            ZStack {
-                Text(sug)
+            VStack {
+                TextField("Search for an album, artist or song", text: $debouncedObject.text)
+                    .onChange(of: debouncedObject.debouncedText) { text in
+                        
+                        musicSuggestions.loadSuggestions(for: text)}
+                    .textFieldStyle(.roundedBorder)
+                    .font(.system(size: 12, weight: .medium))
+                    .padding()
+                
+                if !musicSuggestions.suggestions.isEmpty {List(musicSuggestions.suggestions, id: \.self) { sug in
+                    ZStack {
+                        Text("\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")")
+                            .font(.system(size: 14, weight: .regular))
+                    }
+                    .onTapGesture {
+                        selectedItem = sug
+                        debouncedObject.preventAfterSelect = true
+                        debouncedObject.text = "\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")"
+                        musicSuggestions.suggestions = []
+                        
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                }}
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            HStack{
+                if selectedItem != nil {
+                    Button("Get Suggestions"){
+                        Task {
+                            aiSuggestions.resetAll()
+                            await aiSuggestions.sendRequest(for: selectedItem!)
+                            aiSuggestions.getAiSuggestions()
+                        }
+                        
+                    }
+                }
+            }
+            Spacer()
         }
+        .frame(maxHeight: musicSuggestions.suggestions.isEmpty ? 100 : 300)
     }
 }
 

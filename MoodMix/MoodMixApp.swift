@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct MoodMixApp: App {
+    @StateObject private var aiSuggestions = AiSuggestions()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(aiSuggestions)
         }
     }
 }

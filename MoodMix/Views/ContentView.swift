@@ -8,13 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var aiSuggestions: AiSuggestions
+    
     var body: some View {
         VStack {
             Description()
             Search()
+            Recommended()
+                .frame(maxHeight: .infinity)
             Spacer()
+            
+            if aiSuggestions.tryCount > 0 {
+                ProgressView("one moment please \(aiSuggestions.tryCount)")
+            }
+            
         }
         .padding()
+        .alert(aiSuggestions.error ?? "", isPresented: $aiSuggestions.hasError) {
+            Button("OK", role: .cancel) {}
+        }
     }
 }
 
