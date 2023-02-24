@@ -13,18 +13,49 @@ struct Recommended: View {
     var body: some View {
         GeometryReader { geometryProxy in
             if aiSuggestions.recommendations == nil {EmptyView()} else {
-             VStack {
+                VStack {
                     ScrollView(.horizontal, showsIndicators: true) {
                         HStack {
                             ForEach(0...2, id: \.self) {idx in
                                 VStack{
                                     Text(titles[idx]).font(.title)
                                     List((aiSuggestions.recommendations?.lists[idx]) ?? [], id: \.id) { sub in
-                                        VStack (alignment: .leading) {
-                                            Text("Title: \(sub.title ?? "Failed to parse")")
-                                            Text("By: \(sub.owner ?? "Failed to parse")")
-                                            Text("Description: \(sub.description ?? "")")
-                                            AsyncImage(url: URL(string: sub.imageUrl ?? "")).frame(width: 200, height: 200)
+                                        HStack {
+                                            AsyncImage(url: URL(string: sub.imageUrl ?? "")) { phase in
+                                                switch phase {
+                                                case .empty:
+                                                    if idx < 2 {
+                                                        ProgressView()
+                                                    } else {
+                                                        Image(systemName: "recordingtape")
+                                                    }
+                                                    
+                                                case .success(let image):
+                                                    image .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                       
+                                                    
+                                                case .failure:
+                                                    Image(systemName: "photo")
+                                                @unknown default:
+                                                    EmptyView()
+                                                }
+                                            }
+                                            .clipShape(
+                                                RoundedRectangle(cornerRadius: 20)
+                                            )
+                                            .frame(maxWidth: 100)
+                                            .padding(.trailing, 10)
+                                            
+                                            VStack (alignment: .leading) {
+                                                Text("**Title**: \(sub.title ?? "Failed to parse")")
+                                                    .padding(.bottom, 5)
+                                                Text("**By**: \(sub.owner ?? "Failed to parse")")
+                                                    .padding(.bottom, 5)
+                                                Text("**Description**: \(sub.description ?? "")")
+                                                
+                                            }
+                                            
                                         }
                                     }
                                 }
@@ -42,7 +73,7 @@ struct Recommended_Previews: PreviewProvider {
     static var previews: some View {
         Recommended().environmentObject({ () -> AiSuggestions in
             let aiSuggestions = AiSuggestions()
-            aiSuggestions.recommendations = Recommendations(films: [Films(title: "The Rocky Horror Picture show", owner: "Jim Sharman", description: "This film is a cult classic that is a mix of horror, science fiction, and comedy, with a memorable soundtrack and a theatrical, over-the-top atmosphere.")], albums: [Albums(title: "test title album", owner: "test owner album", description: "test description album")], series: [Series(title: "test title series", owner: "test owner series", description: "test description series")])
+            aiSuggestions.recommendations = Recommendations(films: [Films(title: "The Rocky Horror Picture show", owner: "Jim Sharman", description: "This film is a cult classic that is a mix of horror, science fiction, and comedy, with a memorable soundtrack and a theatrical, over-the-top atmosphere.", imageUrl: "https://image.tmdb.org/t/p/w342/rsNbxonO8gtylIXwiv7JeqwJ4Kb.jpg")], albums: [Albums(title: "test title album", owner: "test owner album", description: "test description album")], series: [Series(title: "test title series", owner: "test owner series", description: "test description series")])
             return aiSuggestions
         }())
     }

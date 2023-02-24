@@ -27,6 +27,7 @@
 		9D782EBC29A414890002CEBB /* Recommended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommended.swift; sourceTree = "<group>"; };
 		9D782EBE29A43CC50002CEBB /* debouncedSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = debouncedSearch.swift; sourceTree = "<group>"; };
 		9D7B5A2629A5722700E974EF /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
+		9D7B5A2829A9360A00E974EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9D8B7D9529A2A57A004DC811 /* MoodMix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoodMix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D8B7D9829A2A57A004DC811 /* MoodMixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodMixApp.swift; sourceTree = "<group>"; };
 		9D8B7D9A29A2A57A004DC811 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		9D8B7D9729A2A57A004DC811 /* MoodMix */ = {
 			isa = PBXGroup;
 			children = (
+				9D7B5A2829A9360A00E974EF /* Info.plist */,
 				9D8B7DAC29A2A6CD004DC811 /* models */,
 				9D8B7DA729A2A5A1004DC811 /* Views */,
 				9D8B7DA629A2A58C004DC811 /* logic */,
@@ -259,6 +261,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -313,6 +316,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -334,7 +338,7 @@
 				DEVELOPMENT_TEAM = WG7S4NXZ8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = MoodMix/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -363,7 +367,7 @@
 				DEVELOPMENT_TEAM = WG7S4NXZ8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = MoodMix/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

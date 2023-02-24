@@ -84,6 +84,7 @@ struct Suggestions: Codable {
 
 struct ImageUrl: Codable {
     var posterPathMedium: String?
+    var poster_path: String?
 }
 
 func aiUrl() -> URL? {

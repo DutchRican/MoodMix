@@ -12,6 +12,7 @@ struct Search: View {
     @StateObject var musicSuggestions = MusicSuggestions()
     @EnvironmentObject var aiSuggestions: AiSuggestions
     @State private var selectedItem: Release?
+    @FocusState private var focusState: Bool
     
     var body: some View {
         VStack {
@@ -23,6 +24,7 @@ struct Search: View {
                     .textFieldStyle(.roundedBorder)
                     .font(.system(size: 12, weight: .medium))
                     .padding()
+                    .focused($focusState)
                 
                 if !musicSuggestions.suggestions.isEmpty {List(musicSuggestions.suggestions, id: \.self) { sug in
                     ZStack {
@@ -34,7 +36,7 @@ struct Search: View {
                         debouncedObject.preventAfterSelect = true
                         debouncedObject.text = "\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")"
                         musicSuggestions.suggestions = []
-                        
+                        focusState = false
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 }}
