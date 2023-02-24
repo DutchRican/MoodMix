@@ -26,22 +26,27 @@ struct Search: View {
                     .padding()
                     .focused($focusState)
                 
-                if !musicSuggestions.suggestions.isEmpty {List(musicSuggestions.suggestions, id: \.self) { sug in
-                    ZStack {
-                        Text("\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")")
-                            .font(.system(size: 14, weight: .regular))
-                    }
-                    .onTapGesture {
-                        selectedItem = sug
-                        debouncedObject.preventAfterSelect = true
-                        debouncedObject.text = "\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")"
-                        musicSuggestions.suggestions = []
-                        focusState = false
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                }}
+               
             }
             HStack{
+                if !musicSuggestions.suggestions.isEmpty {
+                    List(musicSuggestions.suggestions, id: \.self) { sug in
+                        ZStack {
+                            Text("\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")")
+                                .font(.system(size: 14, weight: .regular))
+                        }
+                        .onTapGesture {
+                            selectedItem = sug
+                            debouncedObject.preventAfterSelect = true
+                            debouncedObject.text = "\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")"
+                            musicSuggestions.suggestions = []
+                            focusState = false
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    }
+                    .zIndex(1)
+                    .frame(minHeight: 200)
+                }
                 if selectedItem != nil {
                     Button("Get Suggestions"){
                         Task {
