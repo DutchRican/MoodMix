@@ -21,6 +21,7 @@
 		9D8B7DB429A2AD87004DC811 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8B7DB329A2AD86004DC811 /* Search.swift */; };
 		9D8B7DB629A2B148004DC811 /* musicSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8B7DB529A2B148004DC811 /* musicSuggestions.swift */; };
 		9D8B7DB829A2F624004DC811 /* aiSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8B7DB729A2F624004DC811 /* aiSuggestions.swift */; };
+		9DD2739229ABDE7700E340D9 /* SuggestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD2739129ABDE7700E340D9 /* SuggestionCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		9D8B7DB329A2AD86004DC811 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		9D8B7DB529A2B148004DC811 /* musicSuggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = musicSuggestions.swift; sourceTree = "<group>"; };
 		9D8B7DB729A2F624004DC811 /* aiSuggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aiSuggestions.swift; sourceTree = "<group>"; };
+		9DD2739129ABDE7700E340D9 /* SuggestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				9D8B7DB329A2AD86004DC811 /* Search.swift */,
 				9D782EBC29A414890002CEBB /* Recommended.swift */,
 				9D7B5A2629A5722700E974EF /* MoodView.swift */,
+				9DD2739129ABDE7700E340D9 /* SuggestionCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 				9D782EBF29A43CC50002CEBB /* debouncedSearch.swift in Sources */,
 				9D8B7D9B29A2A57A004DC811 /* ContentView.swift in Sources */,
 				9D8B7DB029A2A893004DC811 /* Suggestions.swift in Sources */,
+				9DD2739229ABDE7700E340D9 /* SuggestionCard.swift in Sources */,
 				9D8B7D9929A2A57A004DC811 /* MoodMixApp.swift in Sources */,
 				9D782EBD29A414890002CEBB /* Recommended.swift in Sources */,
 				9D8B7DAB29A2A668004DC811 /* api_key.swift in Sources */,

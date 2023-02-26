@@ -20,43 +20,8 @@ struct Recommended: View {
                                 VStack{
                                     Text(titles[idx]).font(.title)
                                     List((aiSuggestions.recommendations?.lists[idx]) ?? [], id: \.id) { sub in
-                                        HStack {
-                                            AsyncImage(url: URL(string: sub.imageUrl ?? "")) { phase in
-                                                switch phase {
-                                                case .empty:
-                                                    if idx < 2 {
-                                                        ProgressView()
-                                                    } else {
-                                                        Image(systemName: "recordingtape")
-                                                    }
-                                                    
-                                                case .success(let image):
-                                                    image .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                       
-                                                    
-                                                case .failure:
-                                                    Image(systemName: "photo")
-                                                @unknown default:
-                                                    EmptyView()
-                                                }
-                                            }
-                                            .clipShape(
-                                                RoundedRectangle(cornerRadius: 20)
-                                            )
-                                            .frame(maxWidth: 100)
-                                            .padding(.trailing, 10)
-                                            
-                                            VStack (alignment: .leading) {
-                                                Text("**Title**: \(sub.title ?? "Failed to parse")")
-                                                    .padding(.bottom, 5)
-                                                Text("**By**: \(sub.owner ?? "Failed to parse")")
-                                                    .padding(.bottom, 5)
-                                                Text("**Description**: \(sub.description ?? "")")
-                                                
-                                            }
-                                            
-                                        }
+                                        SuggestionCard(sub: sub, idx: idx)
+                                       
                                     }
                                 }
                                 .frame(width:  geometryProxy.size.width)

@@ -88,9 +88,7 @@ public class AiSuggestions: ObservableObject {
                 return data
             }
             .decode(type: [Suggestions].self, decoder: JSONDecoder())
-            .sink { completion in
-                print("Completion: \(completion)")
-            } receiveValue: { [weak self] suggestion in
+            .sink { _ in } receiveValue: { [weak self] suggestion in
                 guard let self = self else {return }
                 if suggestion.isEmpty {
                     if self.tryCount >= max_tries {
@@ -147,7 +145,7 @@ public class AiSuggestions: ObservableObject {
         components.queryItems = [
             URLQueryItem(name: "\(entity)", value: val),
         ]
-        print(components.string!)
+
         guard let url = URL(string: components.string!) else {return}
         let session = URLSession.shared
         
@@ -161,9 +159,7 @@ public class AiSuggestions: ObservableObject {
                 return data
             }
             .decode(type: [ImageUrl].self, decoder: JSONDecoder())
-            .sink { completion in
-                print("Completion: \(completion)")
-            } receiveValue: { [weak self] images in
+            .sink { _ in } receiveValue: { [weak self] images in
                 guard let self = self else {return }
                 switch entity {
                 case "films":
@@ -181,14 +177,6 @@ public class AiSuggestions: ObservableObject {
                         }
                         return orig
                     } ?? []
-//                case "albums":
-//                    self.recommendations?.albums =  self.recommendations?.albums.map { orig in
-//                        if orig.title == item.title {
-//                            return Albums(title: orig.title, owner: orig.owner, description: orig.description, imageUrl: images.first?.posterPathMedium)
-//                        }
-//                        return orig
-//                    } ?? []
-                    
                 default:
                     break
                 }

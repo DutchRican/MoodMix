@@ -20,33 +20,13 @@ struct Search: View {
                 TextField("Search for an album, artist or song", text: $debouncedObject.text)
                     .onChange(of: debouncedObject.debouncedText) { text in
                         
-                        musicSuggestions.loadSuggestions(for: text)}
+                        musicSuggestions.loadSuggestions(for: text)
+                        
+                    }
                     .textFieldStyle(.roundedBorder)
                     .font(.system(size: 12, weight: .medium))
                     .padding()
                     .focused($focusState)
-                
-               
-            }
-            HStack{
-                if !musicSuggestions.suggestions.isEmpty {
-                    List(musicSuggestions.suggestions, id: \.self) { sug in
-                        ZStack {
-                            Text("\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")")
-                                .font(.system(size: 14, weight: .regular))
-                        }
-                        .onTapGesture {
-                            selectedItem = sug
-                            debouncedObject.preventAfterSelect = true
-                            debouncedObject.text = "\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")"
-                            musicSuggestions.suggestions = []
-                            focusState = false
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                    }
-                    .zIndex(1)
-                    .frame(minHeight: 200)
-                }
                 if selectedItem != nil {
                     Button("Get Suggestions"){
                         Task {
@@ -57,15 +37,42 @@ struct Search: View {
                         
                     }
                 }
+               
             }
-            Spacer()
+            .overlay {
+                HStack{
+                    if !musicSuggestions.suggestions.isEmpty {
+                        List(musicSuggestions.suggestions, id: \.self) { sug in
+                            ZStack {
+                                Text("\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")")
+                                    .font(.system(size: 14, weight: .regular))
+                            }
+                            .onTapGesture {
+                                selectedItem = sug
+                                debouncedObject.preventAfterSelect = true
+                                debouncedObject.text = "\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")"
+                                musicSuggestions.suggestions = []
+                                focusState = false
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        }
+                        .zIndex(1)
+                        .frame(minHeight: 200)
+                    }
+                }
+            }
         }
         .frame(maxHeight: musicSuggestions.suggestions.isEmpty ? 100 : 300)
     }
 }
 
 struct Search_Previews: PreviewProvider {
+    @StateObject static var musicSuggestion = MusicSuggestions()
+    
     static var previews: some View {
-        Search()
+            Search()
+            .onAppear {
+                musicSuggestion.suggestions = [Release(id: "sdfsf2342", score: 2, title: "test-title", status: "testStatus", artistCredit: [ArtistCredit(name: "test-artist", artist: ArtistName(name: "queen"))])]
+            }
     }
 }
