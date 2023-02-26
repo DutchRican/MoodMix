@@ -14,6 +14,7 @@ struct SuggestionCard: View {
         VStack (alignment: .leading){
             VStack (alignment: .center) {
                 Text("\(sub.title ?? "No title provided")")
+                    .foregroundColor(Color("MainTitle"))
                     .font(.title2)
                     .padding(.bottom, 5)
                 HStack {
@@ -55,6 +56,7 @@ struct SuggestionCard: View {
                 
                 VStack (alignment: .leading) {
                     Text("\(sub.description ?? "")")
+                        .foregroundColor(Color("MainBlue"))
                     
                 }
             }

@@ -32,6 +32,7 @@ struct Search: View {
                         Task {
                             aiSuggestions.resetAll()
                             await aiSuggestions.sendRequest(for: selectedItem!)
+                            selectedItem = nil
                             aiSuggestions.getAiSuggestions()
                         }
                         

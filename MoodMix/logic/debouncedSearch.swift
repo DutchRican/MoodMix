@@ -14,7 +14,7 @@ public final class DebouncedTextField: ObservableObject {
     @Published var preventAfterSelect: Bool = false
     private var bag = Set<AnyCancellable>()
     
-    public init(dueTime: TimeInterval = 0.5) {
+    public init(dueTime: TimeInterval = 0.7) {
         $text
             .removeDuplicates()
             .debounce(for: .seconds(dueTime), scheduler: DispatchQueue.main)

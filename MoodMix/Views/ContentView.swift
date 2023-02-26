@@ -12,6 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            Header()
             Description()
             Search()
             Recommended()
@@ -21,6 +22,8 @@ struct ContentView: View {
             if aiSuggestions.tryCount > 0 {
                 ProgressView("one moment please \(aiSuggestions.tryCount)")
             }
+            Spacer()
+            Footer()
             
         }
         .padding()
