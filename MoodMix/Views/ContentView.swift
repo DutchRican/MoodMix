@@ -17,7 +17,7 @@ struct ContentView: View {
             Search()
             Recommended()
                 .frame(maxHeight: .infinity)
-            Spacer()
+//            Spacer()
             
             if aiSuggestions.tryCount > 0 {
                 ProgressView("one moment please \(aiSuggestions.tryCount)")
@@ -36,5 +36,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(AiSuggestions())
     }
 }

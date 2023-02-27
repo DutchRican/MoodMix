@@ -12,7 +12,7 @@ struct Recommended: View {
     var titles: [String] = ["Movies", "Series", "Albums"]
     var body: some View {
         GeometryReader { geometryProxy in
-            if aiSuggestions.recommendations == nil {EmptyView()} else {
+            if aiSuggestions.recommendations != nil {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: true) {
                         HStack {
@@ -21,7 +21,7 @@ struct Recommended: View {
                                     Text(titles[idx]).font(.title)
                                     List((aiSuggestions.recommendations?.lists[idx]) ?? [], id: \.id) { sub in
                                         SuggestionCard(sub: sub, idx: idx)
-                                       
+                                        
                                     }
                                 }
                                 .frame(width:  geometryProxy.size.width)
@@ -31,6 +31,8 @@ struct Recommended: View {
                 }
             }
         }
+        .frame(maxHeight: aiSuggestions.recommendations == nil ? 0: .infinity)
+        
     }
 }
 

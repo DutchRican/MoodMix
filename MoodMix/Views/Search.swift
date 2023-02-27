@@ -17,37 +17,44 @@ struct Search: View {
     var body: some View {
         VStack {
             VStack {
-                TextField("Search for an album, artist or song", text: $debouncedObject.text)
-                    .onChange(of: debouncedObject.debouncedText) { text in
-                        
-                        musicSuggestions.loadSuggestions(for: text)
-                        
-                    }
-                    .textFieldStyle(.roundedBorder)
-                    .font(.system(size: 12, weight: .medium))
-                    .padding()
-                    .focused($focusState)
-                if selectedItem != nil {
-                    Button("Get Suggestions"){
-                        Task {
-                            aiSuggestions.resetAll()
-                            await aiSuggestions.sendRequest(for: selectedItem!)
-                            selectedItem = nil
-                            aiSuggestions.getAiSuggestions()
+                HStack {
+                    TextField("Search for an album, artist or song", text: $debouncedObject.text)
+                        .onChange(of: debouncedObject.debouncedText) { text in
+                            
+                            musicSuggestions.loadSuggestions(for: text)
+                            
                         }
-                        
+                        .font(.system(size: 12, weight: .medium))
+                    
+                        .focused($focusState)
+                    Image(systemName: "delete.left")
+                        .opacity(debouncedObject.text.count > 0 ? 1 : 0.3)
+                        .onTapGesture {
+                            self.debouncedObject.text = ""
+                            musicSuggestions.suggestions = []
+                        }
+                }
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color(UIColor.lightGray), lineWidth: 1)
+                )
+                Button("Get Suggestions"){
+                    Task {
+                        aiSuggestions.resetAll()
+                        await aiSuggestions.sendRequest(for: selectedItem!)
+                        aiSuggestions.getAiSuggestions()
+                        selectedItem = nil
                     }
                 }
-               
-            }
-            .overlay {
-                HStack{
-                    if !musicSuggestions.suggestions.isEmpty {
-                        List(musicSuggestions.suggestions, id: \.self) { sug in
-                            ZStack {
-                                Text("\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")")
-                                    .font(.system(size: 14, weight: .regular))
-                            }
+                .opacity((!aiSuggestions.submittedRequest && selectedItem == nil) ? 0.5 : 1.0)
+                .disabled(aiSuggestions.submittedRequest || selectedItem == nil)
+                Spacer()
+                
+                if !musicSuggestions.suggestions.isEmpty {
+                    List(musicSuggestions.suggestions, id: \.self) { sug in
+                        Text("\(sug.title ?? "") - \(sug.artistCredit?.first?.artist?.name ?? "")")
+                            .font(.system(size: 14, weight: .regular))
                             .onTapGesture {
                                 selectedItem = sug
                                 debouncedObject.preventAfterSelect = true
@@ -55,15 +62,12 @@ struct Search: View {
                                 musicSuggestions.suggestions = []
                                 focusState = false
                             }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                        }
-                        .zIndex(1)
-                        .frame(minHeight: 200)
                     }
+                    .zIndex(99)
+                    .frame(minHeight: 300)
                 }
             }
         }
-        .frame(maxHeight: musicSuggestions.suggestions.isEmpty ? 100 : 300)
     }
 }
 
@@ -71,9 +75,11 @@ struct Search_Previews: PreviewProvider {
     @StateObject static var musicSuggestion = MusicSuggestions()
     
     static var previews: some View {
-            Search()
-            .onAppear {
-                musicSuggestion.suggestions = [Release(id: "sdfsf2342", score: 2, title: "test-title", status: "testStatus", artistCredit: [ArtistCredit(name: "test-artist", artist: ArtistName(name: "queen"))])]
-            }
+        musicSuggestion.suggestions = [Release(id: "sdfsf2342", score: 2, title: "test-title", status: "testStatus", artistCredit: [ArtistCredit(name: "test-artist", artist: ArtistName(name: "queen"))])]
+        return Group {
+            Search().environmentObject(AiSuggestions())
+            Search(musicSuggestions: musicSuggestion).environmentObject(AiSuggestions())
+            
+        }
     }
 }
