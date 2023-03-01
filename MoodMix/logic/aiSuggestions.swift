@@ -98,10 +98,11 @@ public class AiSuggestions: ObservableObject {
                         self.tryCount = 0
                         self.error = "Could not get suggestions within \(max_tries * 3) seconds"
                         self.hasError = true
+                        self.submittedRequest = false
                         return
                     }
                     self.tryCount += 1
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(3), execute: {
                         self.getAiSuggestions()
                     })
                 } else {
@@ -109,6 +110,7 @@ public class AiSuggestions: ObservableObject {
                     suggestion.first?.recommendations?.films.forEach { self.getImageUrl(for: "films", with: $0) }
                     suggestion.first?.recommendations?.series.forEach { self.getImageUrl(for: "series", with: $0) }
                     suggestion.first?.recommendations?.albums.forEach { self.getImageUrl(for: "albums", with: $0) }
+                    self.submittedRequest = false
                     self.tryCount = 0
                 }
             }

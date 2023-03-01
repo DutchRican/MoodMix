@@ -18,11 +18,12 @@ struct Recommended: View {
                         HStack {
                             ForEach(0...2, id: \.self) {idx in
                                 VStack{
-                                    Text(titles[idx]).font(.title)
-                                    List((aiSuggestions.recommendations?.lists[idx]) ?? [], id: \.id) { sub in
-                                        SuggestionCard(sub: sub, idx: idx)
-                                        
-                                    }
+                                    List {
+                                        Text(titles[idx]).font(.subheadline)
+                                        ForEach(aiSuggestions.recommendations?.lists[idx] ?? [], id: \.id) { sub in
+                                            SuggestionCard(sub: sub, idx: idx)
+                                        }
+                                    }.listStyle(.inset)
                                 }
                                 .frame(width:  geometryProxy.size.width)
                             }

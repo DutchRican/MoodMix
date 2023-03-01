@@ -32,6 +32,7 @@ struct Search: View {
                         .onTapGesture {
                             self.debouncedObject.text = ""
                             musicSuggestions.suggestions = []
+                            aiSuggestions.submittedRequest = false
                         }
                 }
                 .padding()
@@ -49,7 +50,7 @@ struct Search: View {
                 }
                 .opacity((!aiSuggestions.submittedRequest && selectedItem == nil) ? 0.5 : 1.0)
                 .disabled(aiSuggestions.submittedRequest || selectedItem == nil)
-                Spacer()
+//                Spacer()
                 
                 if !musicSuggestions.suggestions.isEmpty {
                     List(musicSuggestions.suggestions, id: \.self) { sug in
