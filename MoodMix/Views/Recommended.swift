@@ -31,6 +31,7 @@ struct Recommended: View {
                     }
                 }
             }
+            Spacer()
         }
         .frame(maxHeight: aiSuggestions.recommendations == nil ? 0: .infinity)
         

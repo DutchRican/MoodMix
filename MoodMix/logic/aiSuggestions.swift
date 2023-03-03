@@ -23,6 +23,7 @@ public class AiSuggestions: ObservableObject {
     @Published var recommendations: Recommendations?
     @Published var error: String?
     @Published var hasError: Bool = false
+    @Published var isChecking: Bool = false
     private var uuid: String?
     
     private var cancellables = Set<AnyCancellable>()
@@ -48,8 +49,10 @@ public class AiSuggestions: ObservableObject {
                 self.submittedRequest = true
             }
         } catch {
-            print(error.localizedDescription)
-            self.submittedRequest = false
+            DispatchQueue.main.async {
+                print(error.localizedDescription)
+                self.submittedRequest = false
+            }
         }
     }
     
@@ -128,7 +131,6 @@ public class AiSuggestions: ObservableObject {
         case "films":
             owner = "directors"
             break
-        
         default:
             break
         }
@@ -147,7 +149,6 @@ public class AiSuggestions: ObservableObject {
         components.queryItems = [
             URLQueryItem(name: "\(entity)", value: val),
         ]
-
         guard let url = URL(string: components.string!) else {return}
         let session = URLSession.shared
         

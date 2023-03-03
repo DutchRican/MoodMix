@@ -17,7 +17,6 @@ struct ContentView: View {
             Search()
             Recommended()
                 .frame(maxHeight: .infinity)
-//            Spacer()
             
             if aiSuggestions.tryCount > 0 {
                 ProgressView("one moment please \(aiSuggestions.tryCount)")
